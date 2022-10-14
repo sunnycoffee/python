@@ -7,8 +7,8 @@ def xiaomi(pkg):
     response = requests.get(
         "https://app.mi.com/details?id=" + pkg)
     soup = BeautifulSoup(response.content, "html.parser")
-    plat = soup.title.get_text()
-    version = soup.find_all(style='float:right;')[2].get_text()
+    plat = soup.title.get_text().strip()
+    version = soup.find_all(style='float:right;')[2].get_text().strip()
     print(plat + ":" + version)
 
 
@@ -23,11 +23,12 @@ def huawei(id):
 
 def yyb(pkg):
     response = requests.get(
-        "https://a.app.qq.com/o/simple.jsp?pkgname=" + pkg)
+        "https://a.app.qq.com/o/simple.jsp?pkgname=" + pkg,
+        headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'})
     soup = BeautifulSoup(response.content, "html.parser")
-    name = soup.find(style='font-size: 20px;margin-top: 5px;').get_text()
-    version = soup.find_all(class_='pp-comp-extra-p')[1].get_text().strip()
-    print(name + "-应用宝-" + version)
+    plat = soup.title.get_text()
+    version = soup.find_all(class_='pp-comp-extra-p')[2].get_text().strip()
+    print(plat + "-应用宝-" + version)
 
 
 def qh360(id):
